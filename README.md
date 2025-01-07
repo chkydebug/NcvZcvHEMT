@@ -96,5 +96,3 @@ This project is licensed under the MIT License.
 
 ---
 ```
-
-You can copy this content into a text file and upload it to your repository. If you need further assistance, let me know!
