@@ -262,7 +262,10 @@ class NcvZcvApp:
 
 
 if __name__ == "__main__":
-    root = Tk()
-    app = NcvZcvApp(root)
-    root.mainloop()
-
+    if is_display_available():
+        root = Tk()
+        from sheetcarrierdensityvsdepthplotter import NcvZcvApp
+        app = NcvZcvApp(root)
+        root.mainloop()
+    else:
+        run_cli_mode()
