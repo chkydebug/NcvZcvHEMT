@@ -73,6 +73,48 @@ python sheetcarrierdensityvsdepthplotter.py
    Click "Process and Plot" to generate $N_{cv}$ vs $Z_{cv}$ plots. The sheet carrier density will be displayed in the legend.
 
 ---
+### **Running the Application**  
+1. **GUI Mode (With Display)**
+Run the following command:  
+
+```bash
+python sheetcarrierdensityvsdepthplotter.py
+The GUI interface will launch for file selection and parameter input.
+```
+2. **CLI Mode (Headless Systems)**
+In environments without display (e.g., servers, Codespaces), the application automatically switches to CLI mode.
+Alternatively, you can explicitly invoke CLI mode by passing arguments.
+
+**Usage:**
+
+```bash
+python sheetcarrierdensityvsdepthplotter.py \
+--files C(V)_sample1_1kHz.txt C(V)_sample1_10kHz.txt \
+--diameter 50 --epsilon 9 --interface 30
+```
+Sample CLI Input Code:  
+Suppose you have the following .txt files:  
+C(V)_Ox2258_1kHz.txt  
+C(V)_Ox2258_10kHz.txt  
+C(V)_Ox2258_100kHz.txt  
+C(V)_Ox2258_1MHz.txt  
+You can process them using the CLI by running:  
+
+```bash
+python sheetcarrierdensityvsdepthplotter.py \
+--files C(V)_Ox2258_1kHz.txt C(V)_Ox2258_10kHz.txt C(V)_Ox2258_100kHz.txt C(V)_Ox2258_1MHz.txt \
+--diameter 45 --epsilon 8.5 --interface 25
+```
+**Parameters:**
+
+**files**: List of .txt files containing C(V) measurement data.  
+**diameter**: Capacitor diameter in micrometers (µm).  
+**epsilon**: Relative permittivity (εr).  
+**interface**: Expected interface depth (Z) in nanometers (nm).  
+Output  
+**Plots**: Saved as Ncv_vs_Zcv_Plots.png in the results folder.  
+**Excel Results**: Saved in Ncv_Zcv_Results_<timestamp>.xlsx with data for each frequency in separate sheets.
+
 
 ### **Output**
 - Plots showing $N_{cv}$ vs $Z_{cv}$ for forward and backward sweeps.
