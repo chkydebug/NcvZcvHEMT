@@ -8,12 +8,12 @@ This application calculates Ncv and Zcv from C(V) data files using Tkinter GUI.
 - Process multiple .txt files and visualize results.
 
 ### How to Run:
-1. Clone the repository:
-git clone https://github.com/chkydebug/NcvZcvHEMT.git
-\n cd NcvZcvHEMT
-2. Install required packages:
+1. Clone the repository:  
+git clone https://github.com/chkydebug/NcvZcvHEMT.git  
+cd NcvZcvHEMT
+3. Install required packages:  
 pip install -r requirements.txt
-3. Run the application:
+4. Run the application:  
 python sheetcarrierdensityvsdepthplotter.py
 
 ### Dependencies:
