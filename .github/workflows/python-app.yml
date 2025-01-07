@@ -16,4 +16,4 @@ jobs:
           python -m pip install --upgrade pip
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
       - name: Run Python Script
-        run: python ncv_zcv_gui.py
+        run: python sheetcarrierdensityvsdepthplotter.py
