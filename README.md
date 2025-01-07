@@ -81,16 +81,6 @@ python sheetcarrierdensityvsdepthplotter.py
 
 ---
 
-### **Building an Executable (.exe)**
-To build an executable using **PyInstaller**:
-```bash
-pyinstaller --onefile --windowed sheetcarrierdensityvsdepthplotter.py
-```
-
-The executable will be created in the `dist` directory.
-
----
-
 ### **License**
 This project is licensed under the MIT License.
 
