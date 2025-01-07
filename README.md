@@ -1,7 +1,3 @@
-Here's a refined **README.md** template for your project that explains the purpose, functionality, and usage of the Tkinter GUI application for calculating \( N_{cv} \) and \( Z_{cv} \) from C(V) data files.
-
----
-
 ### **README.md**  
 
 # Ncv and Zcv Calculator (Tkinter GUI)  
@@ -113,5 +109,3 @@ The executable will be created in the `dist` directory.
 This project is licensed under the MIT License.  
 
 ---
-
-Let me know if you need further customization for the README! 😊
