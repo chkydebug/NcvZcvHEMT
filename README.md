@@ -9,7 +9,8 @@ This application calculates Ncv and Zcv from C(V) data files using Tkinter GUI.
 
 ### How to Run:
 1. Clone the repository:
-git clone https://github.com/yourusername/repository-name.git
+git clone https://github.com/chkydebug/NcvZcvHEMT.git
+cd NcvZcvHEMT
 2. Install required packages:
 pip install -r requirements.txt
 3. Run the application:
