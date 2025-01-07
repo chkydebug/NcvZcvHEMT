@@ -3,8 +3,38 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import os
+import platform
 from tkinter import Tk, filedialog, Label, Button, Entry, StringVar, messagebox, Frame
 from datetime import datetime
+
+def is_display_available():
+    if platform.system() == 'Linux':
+        return "DISPLAY" in os.environ
+    return True
+def run_cli_mode():
+    print("Running in CLI mode. No GUI available.")
+    # CLI code to handle file selection and processing here
+    import argparse
+    import pandas as pd
+
+    parser = argparse.ArgumentParser(description="CLI Mode for Ncv and Zcv Calculation")
+    parser.add_argument("--files", nargs='+', required=True, help="List of .txt files to process")
+    parser.add_argument("--diameter", type=float, required=True, help="Capacitor diameter in µm")
+    parser.add_argument("--epsilon", type=float, required=True, help="Relative permittivity (εr)")
+    parser.add_argument("--interface", type=float, required=True, help="Expected interface depth (nm)")
+
+    args = parser.parse_args()
+
+if is_display_available():
+    root = Tk()
+    from sheetcarrierdensityvsdepthplotter import NcvZcvApp
+    app = NcvZcvApp(root)
+    root.mainloop()
+else:
+    print("No display found. Running in CLI mode.")
+    # Call an alternative function to process data without GUI
+    from sheetcarrierdensityvsdepthplotter import run_cli_mode
+    run_cli_mode()
 
 # Constants
 epsilon_0 = 8.854e-12  # Permittivity of free space (F/m)
