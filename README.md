@@ -94,12 +94,11 @@ python sheetcarrierdensityvsdepthplotter.py \
 ```
 Sample CLI Input Code:  
 Suppose you have the following .txt files:  
-C(V)_Ox2258_1kHz.txt  
-C(V)_Ox2258_10kHz.txt  
-C(V)_Ox2258_100kHz.txt  
-C(V)_Ox2258_1MHz.txt  
+"C(V)_0_Ox2068_-15_0V_1kHz_-15,0V to 0,0V_1.txt"   
+"C(V)_0_Ox2068_-15_0V_10kHz_-15,0V to 0,0V_1.txt"   
+"C(V)_0_Ox2068_-15_0V_100kHz_-15,0V to 0,0V_1.txt"   
+"C(V)_0_Ox2068_-15_0V_1000kHz_-15,0V to 0,0V_1.txt"  
 You can process them using the CLI by running:  
-
 ```bash
 python3 sheetcarrierdensityvsdepthplotter.py \
 --files "C(V)_0_Ox2068_-15_0V_1kHz_-15,0V to 0,0V_1.txt" \  
