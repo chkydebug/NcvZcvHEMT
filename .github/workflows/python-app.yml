@@ -46,7 +46,7 @@ jobs:
         pyinstaller --onefile --windowed sheetcarrierdensityvsdepthplotter.py
         ls -l dist/
 
-    # Step 7: Upload artifact (executable)
+    # Step 6: Upload artifact (executable)
     - name: Upload executable artifact
       uses: actions/upload-artifact@v3
       with:
