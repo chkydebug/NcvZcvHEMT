@@ -19,13 +19,13 @@ This application calculates **Carrier Density** $N_{cv}$($cm^{-3}$) and **Depth*
 ---
 
 ### **Formulas Used**  
-- **Carrier Density**$N_{cv}$:  
+- **Carrier Density** $N_{cv}$:  
   $$N_{cv} = \frac{C^3}{\varepsilon_0 \varepsilon_r A^2 q} \cdot \frac{dV}{dC}$$ 
 
-- **Depth**$Z_{cv}$:  
+- **Depth** $Z_{cv}$:  
   $$Z_{cv} = \frac{\varepsilon_0 \varepsilon_r A}{C}$$ 
 
-- **Sheet Carrier Density**$\sigma_{cv}$:  
+- **Sheet Carrier Density** $\sigma_{cv}$:  
   $$\sigma_{cv} = \int N_{cv} dZ_{cv}$$ 
 
 Where:  
