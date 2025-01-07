@@ -101,9 +101,13 @@ C(V)_Ox2258_1MHz.txt
 You can process them using the CLI by running:  
 
 ```bash
-python sheetcarrierdensityvsdepthplotter.py \
---files C(V)_Ox2258_1kHz.txt C(V)_Ox2258_10kHz.txt C(V)_Ox2258_100kHz.txt C(V)_Ox2258_1MHz.txt \
---diameter 45 --epsilon 8.5 --interface 25
+python3 sheetcarrierdensityvsdepthplotter.py \
+--files "C(V)_0_Ox2068_-15_0V_1kHz_-15,0V to 0,0V_1.txt" \  
+       "C(V)_0_Ox2068_-15_0V_10kHz_-15,0V to 0,0V_1.txt" \  
+       "C(V)_0_Ox2068_-15_0V_100kHz_-15,0V to 0,0V_1.txt" \  
+       "C(V)_0_Ox2068_-15_0V_1000kHz_-15,0V to 0,0V_1.txt" \  
+--diameter 750 --epsilon 9 --interface 30
+
 ```
 **Parameters:**
 
