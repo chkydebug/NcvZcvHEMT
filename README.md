@@ -94,12 +94,11 @@ Suppose you have the following .txt files:
 "C(V)_0_Ox2068_-15_0V_1000kHz_-15,0V to 0,0V_1.txt"  
 You can process them using the CLI by running:  
 ```
-python3 sheetcarrierdensityvsdepthplotter.py \
---files "C(V)_0_Ox2068_-15_0V_1kHz_-15,0V to 0,0V_1.txt" \  
-       "C(V)_0_Ox2068_-15_0V_10kHz_-15,0V to 0,0V_1.txt" \  
-       "C(V)_0_Ox2068_-15_0V_100kHz_-15,0V to 0,0V_1.txt" \  
-       "C(V)_0_Ox2068_-15_0V_1000kHz_-15,0V to 0,0V_1.txt" \  
---diameter 750 --epsilon 9 --interface 30
+python3 sheetcarrierdensityvsdepthplotter.py \  
+--files "/full/path/to/C(V)_0_Ox2068_-15_0V_1kHz_-15,0V to 0,0V_1.txt" \  
+       "/full/path/to/C(V)_0_Ox2068_-15_0V_10kHz_-15,0V to 0,0V_1.txt" \  
+--diameter 750 --epsilon 9 --interface 30  
+
 ```
 **Parameters:**
 
