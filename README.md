@@ -53,15 +53,14 @@ Where:
 
 ---
 
-### **Running the Application**
+### **Running the Application**  
+1. **GUI Mode (With Display)**
+Run the following command:  
+
 ```
 python sheetcarrierdensityvsdepthplotter.py
 ```
-
-- The GUI will open and prompt for file selection and necessary input parameters.
-
----
-
+The GUI interface will launch for file selection and parameter input.  
 ### **Usage**
 1. **Select C(V) Data Files**
    Click "Select C(V) Files" and choose the .txt files containing capacitance-voltage data.
@@ -75,14 +74,6 @@ python sheetcarrierdensityvsdepthplotter.py
    Click "Process and Plot" to generate $N_{cv}$ vs $Z_{cv}$ plots. The sheet carrier density will be displayed in the legend.
 
 ---
-### **Running the Application**  
-1. **GUI Mode (With Display)**
-Run the following command:  
-
-```
-python sheetcarrierdensityvsdepthplotter.py
-```
-The GUI interface will launch for file selection and parameter input.
 
 2. **CLI Mode (Headless Systems)**
 In environments without display (e.g., servers, Codespaces), the application automatically switches to CLI mode.
