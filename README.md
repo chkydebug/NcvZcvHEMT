@@ -39,20 +39,22 @@ Where:
 
 ### **Installation**  
 1. **Clone the Repository**  
-   ```bash
+   
+```
    git clone https://github.com/chkydebug/NcvZcvHEMT.git
    cd NcvZcvHEMT
-   ```
+```
 
 2. **Install Dependencies**
-   ```bash
+   
+```
    pip install -r requirements.txt
-   ```
+```
 
 ---
 
 ### **Running the Application**
-```bash
+```
 python sheetcarrierdensityvsdepthplotter.py
 ```
 
@@ -62,7 +64,7 @@ python sheetcarrierdensityvsdepthplotter.py
 
 ### **Usage**
 1. **Select C(V) Data Files**
-   Click "Select C(V) Files" and choose the `.txt` files containing capacitance-voltage data.
+   Click "Select C(V) Files" and choose the .txt files containing capacitance-voltage data.
 
 2. **Input Parameters**
    - Enter **capacitor diameter** in µm.
@@ -77,17 +79,18 @@ python sheetcarrierdensityvsdepthplotter.py
 1. **GUI Mode (With Display)**
 Run the following command:  
 
-```bash
-python sheetcarrierdensityvsdepthplotter.py
-The GUI interface will launch for file selection and parameter input.
 ```
+python sheetcarrierdensityvsdepthplotter.py
+```
+The GUI interface will launch for file selection and parameter input.
+
 2. **CLI Mode (Headless Systems)**
 In environments without display (e.g., servers, Codespaces), the application automatically switches to CLI mode.
 Alternatively, you can explicitly invoke CLI mode by passing arguments.
 
 **Usage:**
 
-```bash
+```
 python sheetcarrierdensityvsdepthplotter.py \
 --files C(V)_sample1_1kHz.txt C(V)_sample1_10kHz.txt \
 --diameter 50 --epsilon 9 --interface 30
@@ -99,14 +102,13 @@ Suppose you have the following .txt files:
 "C(V)_0_Ox2068_-15_0V_100kHz_-15,0V to 0,0V_1.txt"   
 "C(V)_0_Ox2068_-15_0V_1000kHz_-15,0V to 0,0V_1.txt"  
 You can process them using the CLI by running:  
-```bash
+```
 python3 sheetcarrierdensityvsdepthplotter.py \
 --files "C(V)_0_Ox2068_-15_0V_1kHz_-15,0V to 0,0V_1.txt" \  
        "C(V)_0_Ox2068_-15_0V_10kHz_-15,0V to 0,0V_1.txt" \  
        "C(V)_0_Ox2068_-15_0V_100kHz_-15,0V to 0,0V_1.txt" \  
        "C(V)_0_Ox2068_-15_0V_1000kHz_-15,0V to 0,0V_1.txt" \  
 --diameter 750 --epsilon 9 --interface 30
-
 ```
 **Parameters:**
 
@@ -123,13 +125,11 @@ Output
 - Plots showing $N_{cv}$ vs $Z_{cv}$ for forward and backward sweeps.
 - Visualization of the interface depth marked by an orange vertical line.
 - Calculated sheet carrier densities will appear in the legend of each plot.
-
----
-
+---  
 ### **Reference Paper:**
 
-The above formulas are derived from:
-"Two-dimensional electron gases induced by spontaneous and piezoelectric polarization charges in N- and Ga-face AlGaN/GaN heterostructures"  
-by O. Ambacher, J. Smart, J. R. Shealy, et al. (Journal of Applied Physics, 1999).
-  DOI: http://dx.doi.org/10.1063/1.371866
----
+The above formulas are derived from:  
+*"Two-dimensional electron gases induced by spontaneous and piezoelectric polarization charges in N- and Ga-face AlGaN/GaN heterostructures"*  
+by O. Ambacher, J. Smart, J. R. Shealy, et al. (Journal of Applied Physics, 1999).  
+DOI: [10.1063/1.371866](http://dx.doi.org/10.1063/1.371866)
+
