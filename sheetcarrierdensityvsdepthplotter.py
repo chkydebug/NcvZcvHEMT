@@ -4,7 +4,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 import os
 import platform
-from tkinter import Tk, filedialog, Label, Button, Entry, StringVar, messagebox, Frame
 from datetime import datetime
 
 def is_display_available():
@@ -300,6 +299,7 @@ class NcvZcvApp:
 
 if __name__ == "__main__":
     if is_display_available():
+        from tkinter import Tk, filedialog, Label, Button, Entry, StringVar, messagebox, Frame
         root = Tk()
         app = NcvZcvApp(root)
         root.mainloop()
