@@ -11,29 +11,6 @@ def is_display_available():
     if platform.system() == 'Linux':
         return "DISPLAY" in os.environ
     return True
-def run_cli_mode():
-    print("Running in CLI mode. No GUI available.")
-    # CLI code to handle file selection and processing here
-    import argparse
-
-    parser = argparse.ArgumentParser(description="CLI Mode for Ncv and Zcv Calculation")
-    parser.add_argument("--files", nargs='+', required=True, help="List of .txt files to process")
-    parser.add_argument("--diameter", type=float, required=True, help="Capacitor diameter in µm")
-    parser.add_argument("--epsilon", type=float, required=True, help="Relative permittivity (εr)")
-    parser.add_argument("--interface", type=float, required=True, help="Expected interface depth (nm)")
-
-    args = parser.parse_args()
-
-if is_display_available():
-    root = Tk()
-    from sheetcarrierdensityvsdepthplotter import NcvZcvApp
-    app = NcvZcvApp(root)
-    root.mainloop()
-else:
-    print("No display found. Running in CLI mode.")
-    # Call an alternative function to process data without GUI
-    from sheetcarrierdensityvsdepthplotter import run_cli_mode
-    run_cli_mode()
 
 # Constants
 epsilon_0 = 8.854e-12  # Permittivity of free space (F/m)
@@ -95,8 +72,8 @@ def calculate_ncv_zcv(df, A, epsilon_r):
 
     Ncv_forward_cm3 = np.abs(Ncv_forward * 1e-6)
     Ncv_backward_cm3 = np.abs(Ncv_backward * 1e-6)
-    integrated_Ncv_forward = np.trapz(Ncv_forward_cm3, Zcv_forward * 1e9)
-    integrated_Ncv_backward = np.trapz(Ncv_backward_cm3, Zcv_backward * 1e9)
+    integrated_Ncv_forward = np.trapezoid(Ncv_forward_cm3, Zcv_forward * 1e9)
+    integrated_Ncv_backward = np.trapezoid(Ncv_backward_cm3, Zcv_backward * 1e9)
 
     result_df = pd.DataFrame({
         'Voltage(V)': voltage,
@@ -113,6 +90,67 @@ def extract_sample_name(filename):
     import re
     return re.sub(r'_(\d+\.?\d*)kHz.*$', '', filename)
 
+def run_cli_mode():
+    import argparse
+    print("Running in CLI mode. No GUI available.")
+    parser = argparse.ArgumentParser(description="CLI Mode for Ncv and Zcv Calculation")
+    parser.add_argument("--files", nargs='+', required=True, help="List of .txt files to process")
+    parser.add_argument("--diameter", type=float, required=True, help="Capacitor diameter in µm")
+    parser.add_argument("--epsilon", type=float, required=True, help="Relative permittivity (εr)")
+    parser.add_argument("--interface", type=float, required=True, help="Expected interface depth (nm)")
+
+    args = parser.parse_args()
+
+    radius_m = (args.diameter * 1e-6) / 2
+    A = np.pi * radius_m**2
+
+    print(f"Capacitor Area: {A:.4e} m²")
+    print(f"Relative Permittivity: {args.epsilon}")
+
+    results = {}
+
+    for file_path in args.files:
+        df, frequency, filename = process_txt_file(file_path)
+        if df is not None:
+            results_df, Ncv_f, Ncv_b = calculate_ncv_zcv(df, A, args.epsilon)
+            results[frequency] = (results_df, Ncv_f, Ncv_b)
+            print(f"{frequency}: Forward Sheet Carrier Density: {Ncv_f:.2e} cm^-2")
+            print(f"{frequency}: Backward Sheet Carrier Density: {Ncv_b:.2e} cm^-2")
+
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    output_folder = os.path.join(os.getcwd(), f"Results_{timestamp}")
+    os.makedirs(output_folder, exist_ok=True)
+
+    # Save results to Excel
+    output_file = os.path.join(output_folder, f'Ncv_Zcv_Results_{timestamp}.xlsx')
+    with pd.ExcelWriter(output_file, engine='xlsxwriter') as writer:
+        for frequency, (data, _, _) in results.items():
+            data.to_excel(writer, sheet_name=frequency, index=False)
+    print(f"Results saved to {output_file}")
+
+    # Plotting
+    fig, axes = plt.subplots(len(results), 2, figsize=(14, 12))
+
+    for i, (frequency, (data, Ncv_f, Ncv_b)) in enumerate(results.items()):
+        ax_forward = axes[i, 0]
+        ax_forward.plot(data['Zcv_Forward (nm)'], data['Ncv_Forward (cm^-3)'], marker='o', color='red')
+        ax_forward.axvline(args.interface, color='orange', linestyle='--', label='Interface Depth')
+        ax_forward.set_title(f'{frequency} - Forward')
+        ax_forward.set_yscale('log')
+        ax_forward.grid(True)
+
+        ax_backward = axes[i, 1]
+        ax_backward.plot(data['Zcv_Backward (nm)'], data['Ncv_Backward (cm^-3)'], marker='x', color='black')
+        ax_backward.axvline(args.interface, color='orange', linestyle='--', label='Interface Depth')
+        ax_backward.set_title(f'{frequency} - Backward')
+        ax_backward.set_yscale('log')
+        ax_backward.grid(True)
+
+    plot_file = os.path.join(output_folder, 'Ncv_vs_Zcv_Plots.png')
+    fig.savefig(plot_file)
+    print(f"Plots saved to {plot_file}")
+
+    plt.close(fig)
 
 class NcvZcvApp:
     def __init__(self, root):
@@ -268,3 +306,4 @@ if __name__ == "__main__":
         root.mainloop()
     else:
         run_cli_mode()
+
