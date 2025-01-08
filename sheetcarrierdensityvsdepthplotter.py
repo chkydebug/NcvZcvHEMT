@@ -15,7 +15,6 @@ def run_cli_mode():
     print("Running in CLI mode. No GUI available.")
     # CLI code to handle file selection and processing here
     import argparse
-    import pandas as pd
 
     parser = argparse.ArgumentParser(description="CLI Mode for Ncv and Zcv Calculation")
     parser.add_argument("--files", nargs='+', required=True, help="List of .txt files to process")
