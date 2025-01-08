@@ -126,7 +126,10 @@ Output
 
 ---
 
-### **License**
-This project is licensed under the MIT License.
+**Reference Paper:**
 
+The above formulas are derived from:
+"Two-dimensional electron gases induced by spontaneous and piezoelectric polarization charges in N- and Ga-face AlGaN/GaN heterostructures"
+by O. Ambacher, J. Smart, J. R. Shealy, et al. (Journal of Applied Physics, 1999).
+.  DOI: http://dx.doi.org/10.1063/1.371866
 ---
