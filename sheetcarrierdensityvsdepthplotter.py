@@ -4,6 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import os
 import platform
+import webbrowser
 
 def is_display_available():
     if platform.system() == 'Linux':
@@ -175,10 +176,13 @@ class NcvZcvApp:
 
         formula_frame = Frame(self.root)
         formula_frame.pack(pady=15)
-        Label(formula_frame, text="Formulas:").pack()
+        Label(formula_frame, text="Formulae:").pack()
         Label(formula_frame, text="Ncv = (C^3 / (ε₀ * εr * A² * q)) * (dV/dC)", font=("Helvetica", 12)).pack()
         Label(formula_frame, text="Zcv = (ε₀ * εr * A) / C", font=("Helvetica", 12)).pack()
         Label(formula_frame, text="Sheet Carrier Density (σ) = ∫ Ncv dZcv", font=("Helvetica", 12)).pack()
+        link = Label(formula_frame, text="DOI: 10.1063/1.371866", font=('Helvetica', 10, 'underline'), fg="blue", cursor="hand2")
+        link.pack()
+        link.bind("<Button-1>", lambda e: webbrowser.open_new("https://doi.org/10.1063/1.371866"))
 
         self.select_button = Button(self.root, text="Select C(V) Files", command=self.select_files)
         self.select_button.pack(pady=20)
