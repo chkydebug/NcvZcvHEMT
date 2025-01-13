@@ -4,7 +4,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 import os
 import platform
-from datetime import datetime
 
 def is_display_available():
     if platform.system() == 'Linux':
@@ -87,7 +86,10 @@ def calculate_ncv_zcv(df, A, epsilon_r):
 
 def extract_sample_name(filename):
     import re
-    return re.sub(r'_(\d+\.?\d*)kHz.*$', '', filename)
+    match = re.search(r'C\(V\)_0_([A-Za-z0-9]+)_', filename)
+    if match:
+        return match.group(1)
+    return "Unknown"
 
 def run_cli_mode():
     import argparse
@@ -107,21 +109,28 @@ def run_cli_mode():
     print(f"Relative Permittivity: {args.epsilon}")
 
     results = {}
+    sample_names = set()
 
     for file_path in args.files:
         df, frequency, filename = process_txt_file(file_path)
         if df is not None:
+            sample_name = extract_sample_name(filename)
+            sample_names.add(sample_name)
             results_df, Ncv_f, Ncv_b = calculate_ncv_zcv(df, A, args.epsilon)
             results[frequency] = (results_df, Ncv_f, Ncv_b)
             print(f"{frequency}: Forward Sheet Carrier Density: {Ncv_f:.2e} cm^-2")
             print(f"{frequency}: Backward Sheet Carrier Density: {Ncv_b:.2e} cm^-2")
 
-    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    output_folder = os.path.join(os.getcwd(), f"Results_{timestamp}")
+    if len(sample_names) > 1:
+        print(f"Error: Multiple sample names detected: {sample_names}. Please ensure all files belong to the same sample.")
+        return
+
+    sample_name = sample_names.pop() if sample_names else "Unknown"
+    output_folder = os.path.join(os.getcwd(), f"Results_{sample_name}")
     os.makedirs(output_folder, exist_ok=True)
 
     # Save results to Excel
-    output_file = os.path.join(output_folder, f'Ncv_Zcv_Results_{timestamp}.xlsx')
+    output_file = os.path.join(output_folder, f'Ncv_Zcv_Results_{sample_name}.xlsx')
     with pd.ExcelWriter(output_file, engine='xlsxwriter') as writer:
         for frequency, (data, _, _) in results.items():
             data.to_excel(writer, sheet_name=frequency, index=False)
@@ -145,7 +154,7 @@ def run_cli_mode():
         ax_backward.set_yscale('log')
         ax_backward.grid(True)
 
-    plot_file = os.path.join(output_folder, 'Ncv_vs_Zcv_Plots.png')
+    plot_file = os.path.join(output_folder, f'Ncv_vs_Zcv_Plots_{sample_name}.png')
     fig.savefig(plot_file)
     print(f"Plots saved to {plot_file}")
 
@@ -221,19 +230,23 @@ class NcvZcvApp:
         A = np.pi * radius_m**2
 
         self.results = {}
+        sample_names = set()
         for file_path in self.file_paths:
-            df, frequency, _ = process_txt_file(file_path)
+            df, frequency, filename = process_txt_file(file_path)
             if df is not None:
+                sample_name = extract_sample_name(filename)
+                sample_names.add(sample_name)
                 results_df, Ncv_f, Ncv_b = calculate_ncv_zcv(df, A, epsilon_r)
                 self.results[frequency] = (results_df, Ncv_f, Ncv_b)
 
-        if not self.results:
-            messagebox.showerror("Error", "No valid data processed.")
+        if len(sample_names) > 1:
+            messagebox.showerror("Error", f"Files belong to different samples: {sample_names}")
             return
 
-        self.plot_results(interface_z)
+        sample_name = sample_names.pop() if sample_names else "Unknown"
+        self.plot_results(interface_z, sample_name)
 
-    def plot_results(self, interface_z):
+    def plot_results(self, interface_z, sample_name):
         fig, axes = plt.subplots(len(self.results), 2, figsize=(14, 12))
 
         if len(self.results) == 1:
@@ -278,18 +291,17 @@ class NcvZcvApp:
         plt.show()
 
         # Save plots and data
-        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-        output_folder = os.path.join(os.getcwd(), f"Results_{timestamp}")
+        output_folder = os.path.join(os.getcwd(), f"Results_{sample_name}")
         os.makedirs(output_folder, exist_ok=True)
 
-        plot_file = os.path.join(output_folder, 'Ncv_vs_Zcv_Plots.png')
+        plot_file = os.path.join(output_folder, f'Ncv_vs_Zcv_Plots_{sample_name}.png')
         fig.savefig(plot_file)
         messagebox.showinfo("Success", f"Plots saved to {plot_file}")
 
-        self.save_to_excel(output_folder)
+        self.save_to_excel(output_folder, sample_name)
 
-    def save_to_excel(self, output_folder):
-        output_file = os.path.join(output_folder, f'Ncv_Zcv_Results_{datetime.now().strftime("%Y%m%d_%H%M%S")}.xlsx')
+    def save_to_excel(self, output_folder, sample_name):
+        output_file = os.path.join(output_folder, f'Ncv_Zcv_Results_{sample_name}.xlsx')
         with pd.ExcelWriter(output_file, engine='xlsxwriter') as writer:
             for frequency, (data, _, _) in self.results.items():
                 data.to_excel(writer, sheet_name=frequency, index=False)
@@ -305,4 +317,3 @@ if __name__ == "__main__":
         root.mainloop()
     else:
         run_cli_mode()
-
